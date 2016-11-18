@@ -1,0 +1,89 @@
+{% block header %}
+<link rel="icon" href="/static/favicon.ico">
+<title>Python Jobs</title>
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/jumbotron.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Python Jobs</a>
+    </div>
+    <div id="navbar" class="navbar-collapsecollapse">
+</div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Python jobs!</h1>
+        <p>This is a posts about python jobs of Beijing! You can look for all
+            jobs information about python in beijing, welcome your coming ! 
+            ps. we will add other city in this website, look forward your
+            coming!
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4">
+            <h3>{{ post.positionName }}</h3>
+            <img alt={{ post.positionName }}
+            src="https://www.lgstatic.com/thumbnail_200*200/{{ post.companyLogo
+            }}" width=100 height=100/>
+            <p>{{ post.createTime }}</p>
+            <p>{{ post.city }}</p>
+            <p>{{ post.companyFullName }}</p>
+            <details> 
+                <li>{{ post.district }}</li>
+                <li>{{ post.companyLabelList }}"</li>
+                <li>{{ post.companySize }}</li>
+                <li>{{ post.education }}</li>
+                <li>{{ post.financeStage }}</li>
+                <li>{{ post.industryField }}</li>
+                <li>{{ post.firstType }}</li>
+                <li>{{ post.secondType }}</li>
+                <li>{{ post.jobNature }}</li>
+                <li>{{ post.positionAdvantage }}</li>
+                <li>{{ post.salary }}</li>
+                <li>{{ post.workYear }}</li>
+            </details>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="text-center"
+    <div class="footbar">
+        <ul class="pagination">
+            <li><a href="?page={{page_num_range[0]-1}}">«</a></li>
+            {% for i in page_num_range %}
+            <li><a href="?page={{i}}">{{i}}</a></li>
+            {% endfor %}
+            <li><a href="?page={{page_num_range[-1]+1}}">»</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<script
+    src="/static/js/jquery.min.js">
+</script>
+<script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')
+</script>
+<script src="/static/js/bootstrap.min.js"></script>
+{%  endblock %}
