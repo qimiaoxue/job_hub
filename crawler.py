@@ -123,7 +123,6 @@ def get_data_jobs(city, keyword, page_num=100):
                 pass
             else:
                 get_insert_count += 1
-                insert_jobs.append(ele)
                 mail_sender = MailSender()
                 from_addr = 'test@sendcloud.org'
                 to_addr = '15011272359@163.com'
