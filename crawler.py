@@ -1,4 +1,5 @@
 # encoding=utf-8
+from send_mail import MailSender
 import requests
 import json
 import time
@@ -105,18 +106,63 @@ class Model(object):
             return True
 
 
-if __name__ == '__main__':
+def get_data_jobs(city, keyword, page_num=100):
+    """crawl 100 page of lagou in city(beijing) under keyword(python)
+    """
     crawler = Crawler()
-    city = '北京'
-    keyword = 'python'
-    page_num = 100
     db = 'python_jobs_server'
     table = 'jobs'
     model = Model(db, table)
+    count = 0
+    get_insert_count = 0
     for json_data in crawler.get_json(city, keyword, page_num):
-        time.sleep(2)
+        time.sleep(1)
+        num = 0
         for ele in crawler.get_data(json_data):
-            print '-' * 30
-            print ele
-            print '-' * 30
-            model.save(ele)
+            if model.seen(ele):
+                pass
+            else:
+                get_insert_count += 1
+                insert_jobs.append(ele)
+                mail_sender = MailSender()
+                from_addr = 'test@sendcloud.org'
+                to_addr = '15011272359@163.com'
+                subject = get_subject(ele)
+                html = get_html(ele)
+                mail_sender.send(from_addr, to_addr, subject, html)
+            num += 1
+        count += num
+    print '-' * 30
+    print 'get_insert_count:', get_insert_count
+    print 'count:', count
+    print '-' * 30
+
+
+def get_subject(ele):
+    """
+    :param ele: dict
+    {
+        'job': pass
+    }
+    """
+    city = ele.get('city', 'None')
+    position_name = ele.get('positionName', 'Python')
+    return '%s %s' % (city, position_name)
+
+def get_html(ele):
+    return u"""
+<ul>
+    <li>{district}</li>
+    <li>{companyLabelList}</li>
+    <li>{companySize}</li>
+    <li>{education}</li>
+    <li>{financeStage}</li>
+    <li>{industryField}</li>
+    <li>{firstType}</li>
+    <li>{secondType}</li>
+    <li>{jobNature}</li>
+    <li>{positionAdvantage}</li>
+    <li>{salary}</li>
+    <li>{workYear}</li>
+</ul>
+""".format(**ele)
