@@ -58,7 +58,6 @@ class PostModel(object):
         return post
 
 
-@app.route('/')
 @app.route('/post')
 def index():
     page = request.args.get('page', '1')
